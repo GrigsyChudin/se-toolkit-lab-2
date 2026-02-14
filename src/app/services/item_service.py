@@ -236,8 +236,25 @@ def get_item_by_id_dfs_iterative(
                             if step.id == item_id:
                                 return FoundItem(step, counter)
         case PostOrder():
-            # TODO implement
-            pass
+            for course in courses:
+                for lab in course.labs:
+                    for task in lab.tasks:
+                        for step in task.steps:
+                            counter += 1
+                            if step.id == item_id:
+                                return FoundItem(step, counter)
+                        
+                        counter += 1
+                        if task.id == item_id:
+                            return FoundItem(task, counter)
+                    
+                    counter += 1
+                    if lab.id == item_id:
+                        return FoundItem(lab, counter)
+                
+                counter += 1
+                if course.id == item_id:
+                    return FoundItem(course, counter)
     return None
 
 
