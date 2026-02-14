@@ -76,3 +76,15 @@ def test_get_step_by_path_1(client: TestClient):
         task_id="lab-02-document-bug",
         step_id="lab-02-document-bug-reproduce",
     )
+
+def test_get_item_post_order(client: TestClient):
+    task_id = "lab-02-run-local"
+    response = client.get(f"/items/item/{task_id}?order=post")
+
+    assert response.status_code == 200
+    
+    found_item = FoundItemAdapter.validate_python(response.json())
+    task = Task.model_validate(found_item.item)
+
+    assert task.id == task_id
+    assert found_item.visited_nodes == 12
